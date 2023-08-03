@@ -32,98 +32,103 @@ const Detail = ({ setActive, user }) => {
   const [blogs, setBlogs] = useState([]);
   const [tags, setTags] = useState([]);
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState([]);
+  let [likes, setLikes] = useState([]);
   const [userComment, setUserComment] = useState("");
   const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   useEffect(() => {
     const getRecentBlogs = async () => {
-      try {
-        const blogRef = collection(db, "blogs");
-        const recentBlogsQuery = query(
-          blogRef,
-          orderBy("timestamp", "desc"),
-          limit(5)
-        );
-        const docSnapshot = await getDocs(recentBlogsQuery);
-        setBlogs(
-          docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
-      } catch (error) {
-        console.error("Error fetching recent blogs:", error);
-      }
+      const blogRef = collection(db, "blogs");
+      const recentBlogs = query(
+        blogRef,
+        orderBy("timestamp", "desc"),
+        limit(5)
+      );
+      const docSnapshot = await getDocs(recentBlogs);
+      setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     };
 
     getRecentBlogs();
   }, []);
 
   useEffect(() => {
-    if (id) {
-      getBlogDetail();
-    }
-  }, [id]) 
+    id && getBlogDetail(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-  const getBlogDetail = async () => {
-    try {
-      setLoading(true);
-      const blogRef = collection(db, "blogs");
-      const docRef = doc(db, "blogs", id);
-      const blogDetail = await getDoc(docRef);
+  if (loading) {
+    return <Spinner />;
+  }
 
-      if (!blogDetail.exists()) {
-        setLoading(false);
-        return;
-      }
+  const getBlogDetail = async (id) => {
+    console.log(id);
+    setLoading(true);
+    const blogRef = collection(db, "blogs");
+    const docRef = doc(db, "blogs", id);
+    const blogDetail = await getDoc(docRef);
+    const blogs = await getDocs(blogRef);
+    console.log(blogs, blogDetail, docRef, blogRef);
 
-      const blogData = blogDetail.data();
-      const blogTags = blogData.tags;
+    let tags = [];
+    blogs.docs.forEach((doc) => tags.push(...doc.get("tags")));
+    let uniqueTags = [...new Set(tags)];
+    setTags(uniqueTags);
+    setBlog(blogDetail.data());
 
-      if (!Array.isArray(blogTags) || blogTags.length === 0) {
-        setLoading(false);
-        setBlog(null);
-        return;
-      }
-
-      const relatedBlogsQuery = query(
-        blogRef,
-        where("tags", "array-contains-any", blogTags),
-        limit(3)
-      );
-
-      const relatedBlogSnapshot = await getDocs(relatedBlogsQuery);
-      const relatedBlogs = relatedBlogSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setBlog(blogData);
-      setComments(blogData.comments ? blogData.comments : []);
-      setLikes(blogData.likes ? blogData.likes : []);
-      setRelatedBlogs(relatedBlogs);
-      setLoading(false);
+    const tagArray = blogDetail.data().tags;
+    if (!tagArray || tagArray.length === 0) {
+      setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
+      setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
+      setRelatedBlogs([]); 
       setActive(null);
+      setLoading(false);
+      return;
+    }
+
+    const relatedBlogsQuery = query(
+      blogRef,
+      where("tags", "array-contains-any", tagArray),
+      limit(3)
+    );
+
+    try {
+      const [commentsSnapshot, relatedBlogSnapshot] = await ([
+        setComments(
+          blogDetail.data().comments ? blogDetail.data().comments : []
+        ),
+        getDocs(relatedBlogsQuery),
+      ]);
+
+      const relatedBlogs = [];
+      relatedBlogSnapshot.forEach((doc) => {
+        relatedBlogs.push({ id: doc.id, ...doc.data() });
+      });
+
+      setRelatedBlogs(relatedBlogs);
+      setActive(null);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching blog details:", error);
+      console.error("Error fetching related blogs:", error);
+      setActive(null);
       setLoading(false);
     }
   };
 
   const handleComment = async (e) => {
     e.preventDefault();
-    const newComment = {
+    comments.push({
       createdAt: Timestamp.fromDate(new Date()),
       userId,
       name: user?.displayName,
       body: userComment,
-    };
-    const updatedComments = [...comments, newComment];
+    });
     toast.success("Comment posted successfully");
     await updateDoc(doc(db, "blogs", id), {
       ...blog,
-      comments: updatedComments,
+      comments,
       timestamp: serverTimestamp(),
     });
-    setComments(updatedComments);
+    setComments(comments);
     setUserComment("");
   };
 
@@ -132,9 +137,11 @@ const Detail = ({ setActive, user }) => {
       if (blog?.likes) {
         const index = likes.findIndex((id) => id === userId);
         if (index === -1) {
-          setLikes((prevLikes) => [...prevLikes, userId]);
+          likes.push(userId);
+          setLikes([...new Set(likes)]);
         } else {
-          setLikes((prevLikes) => prevLikes.filter((id) => id !== userId));
+          likes = likes.filter((id) => id !== userId);
+          setLikes(likes);
         }
       }
       await updateDoc(doc(db, "blogs", id), {
@@ -144,10 +151,6 @@ const Detail = ({ setActive, user }) => {
       });
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <div className="single">
@@ -187,10 +190,7 @@ const Detail = ({ setActive, user }) => {
                   ) : (
                     <>
                       {comments?.map((comment) => (
-                        <UserComments
-                          key={comment.createdAt.toMillis()}
-                          {...comment}
-                        />
+                        <UserComments {...comment} />
                       ))}
                     </>
                   )}

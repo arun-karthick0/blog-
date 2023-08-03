@@ -153,7 +153,7 @@ const Home = ({ setActive, user, active }) => {
   useEffect(() => {
     if (!isNull(searchQuery)) {
       searchBlogs();
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   if (loading) {
@@ -190,7 +190,7 @@ const Home = ({ setActive, user, active }) => {
       prevValue[name] = 0;
     }
     prevValue[name]++;
-    // delete prevValue["undefined"];
+   
     return prevValue;
   }, {});
 
