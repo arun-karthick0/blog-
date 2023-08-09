@@ -1,7 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const CommentBox = ({ userId, userComment, setUserComment, handleComment }) => {
+const CommentBox = ({
+  userId,
+  userComment,
+  setUserComment,
+  handleComment,
+  user,
+}) => {
   const navigate = useNavigate();
   return (
     <>

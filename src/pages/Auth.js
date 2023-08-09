@@ -3,10 +3,14 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { storage } from "../firebase";
+import { ref, uploadBytes } from "firebase/storage";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { v4 } from "uuid";
+import { getDownloadURL } from "firebase/storage";
 
 const initialState = {
   firstName: "",
@@ -19,6 +23,7 @@ const initialState = {
 const Auth = ({ setActive, setUser }) => {
   const [state, setState] = useState(initialState);
   const [signUp, setSignUp] = useState(false);
+  const [uploadImage, setUploadImage] = useState(null);
 
   const { email, password, firstName, lastName, confirmPassword } = state;
 
@@ -30,35 +35,68 @@ const Auth = ({ setActive, setUser }) => {
 
   const handleAuth = async (e) => {
     e.preventDefault();
+
     if (!signUp) {
       if (email && password) {
-        const { user } = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        setUser(user);
-        setActive("home");
+        try {
+          const { user } = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          setUser(user);
+          setActive("home");
+        } catch (error) {
+          toast.error("Sign-in failed. Please check your credentials.");
+        }
       } else {
-        return toast.error("All fields are mandatory to fill");
+        toast.error("All fields are mandatory to fill");
       }
     } else {
       if (password !== confirmPassword) {
-        return toast.error("Password don't match");
-      }
-      if (firstName && lastName && email && password) {
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await updateProfile(user, { displayName: `${firstName} ${lastName}` });
-        setActive("home");
+        toast.error("Passwords don't match");
+      } else if (firstName && lastName && email && password) {
+        try {
+          const { user } = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          // Update user's display name
+          await updateProfile(user, {
+            displayName: `${firstName} ${lastName}`,
+          });
+
+          if (uploadImage) {
+            const imageRef = ref(
+              storage,
+              `/profile/${uploadImage.name}_${v4()}`
+            );
+            await uploadBytes(imageRef, uploadImage);
+
+            const downloadURL = await getDownloadURL(imageRef);
+
+            await updateProfile(user, {
+              photoURL: downloadURL,
+            });
+
+            toast.success("Profile picture uploaded successfully");
+          }
+
+          setUser(user);
+          toast.success("Sign up successful, now redirecting to Home");
+          setActive("home");
+        } catch (error) {
+          toast.error("Sign-up failed. Please try again.");
+        }
       } else {
-        return toast.error("All fields are mandatory to fill");
+        toast.error("All fields are mandatory to fill");
       }
     }
-    navigate("/");
+
+    setTimeout(() => {
+      navigate("/");
+    }, 1500);
   };
 
   return (
@@ -106,6 +144,7 @@ const Auth = ({ setActive, setUser }) => {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="col-12 py-3">
                 <input
                   type="password"
@@ -129,10 +168,23 @@ const Auth = ({ setActive, setUser }) => {
                 </div>
               )}
 
+              {signUp && (
+                <div className="col-12 py-3">
+                  <input
+                    style={{ padding: "10px" }}
+                    type="file"
+                    className="form-control input-text-box"
+                    name="profilePicture"
+                    onChange={(e) => setUploadImage(e.target.files[0])}
+                  />
+                </div>
+              )}
+
               <div className="col-12 py-3 text-center">
                 <button
                   className={`btn ${!signUp ? "btn-sign-in" : "btn-sign-up"}`}
                   type="submit"
+                  disabled={false}
                 >
                   {!signUp ? "Sign-in" : "Sign-up"}
                 </button>

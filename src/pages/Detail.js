@@ -79,7 +79,7 @@ const Detail = ({ setActive, user }) => {
     if (!tagArray || tagArray.length === 0) {
       setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
       setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
-      setRelatedBlogs([]); 
+      setRelatedBlogs([]);
       setActive(null);
       setLoading(false);
       return;
@@ -92,12 +92,12 @@ const Detail = ({ setActive, user }) => {
     );
 
     try {
-      const [commentsSnapshot, relatedBlogSnapshot] = await ([
+      const [commentsSnapshot, relatedBlogSnapshot] = await [
         setComments(
           blogDetail.data().comments ? blogDetail.data().comments : []
         ),
         getDocs(relatedBlogsQuery),
-      ]);
+      ];
 
       const relatedBlogs = [];
       relatedBlogSnapshot.forEach((doc) => {
@@ -197,6 +197,7 @@ const Detail = ({ setActive, user }) => {
                 </div>
               </div>
               <CommentBox
+                user={user}
                 userId={userId}
                 userComment={userComment}
                 setUserComment={setUserComment}
