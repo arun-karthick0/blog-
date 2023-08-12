@@ -67,7 +67,7 @@ const Detail = ({ setActive, user }) => {
     const docRef = doc(db, "blogs", id);
     const blogDetail = await getDoc(docRef);
     const blogs = await getDocs(blogRef);
-    console.log(blogs, blogDetail, docRef, blogRef);
+    // console.log(blogs, blogDetail, docRef, blogRef);
 
     let tags = [];
     blogs.docs.forEach((doc) => tags.push(...doc.get("tags")));
@@ -119,9 +119,11 @@ const Detail = ({ setActive, user }) => {
     comments.push({
       createdAt: Timestamp.fromDate(new Date()),
       userId,
+      profile: user.photoURL,
       name: user?.displayName,
       body: userComment,
     });
+    // console.log(user);
     toast.success("Comment posted successfully");
     await updateDoc(doc(db, "blogs", id), {
       ...blog,
@@ -189,6 +191,9 @@ const Detail = ({ setActive, user }) => {
                     />
                   ) : (
                     <>
+                      {comments?.map((item) => {
+                        return console.log(item);
+                      })}
                       {comments?.map((comment) => (
                         <UserComments {...comment} />
                       ))}

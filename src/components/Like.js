@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Tooltip } from "bootstrap";
 
-const Like = ({ handleLike, likes, userId }) => {
+const Like = ({ handleLike, likes, userId, user }) => {
+  
   useEffect(() => {
     let tooltipTriggerList = [].slice.call(
       document.querySelectorAll('[data-bs-toggle="tooltip"]')
