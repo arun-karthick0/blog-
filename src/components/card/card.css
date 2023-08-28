@@ -1,0 +1,49 @@
+.card {
+  border: none;
+  background-color: #f7f7f7;
+}
+
+.card .card_info {
+  position: absolute;
+  width: 250px;
+  z-index: 1;
+  height: 260px;
+  border-radius: 5px;
+  right: 5%;
+  top: 200%;
+  background-color: #f7f7f7;
+  transition: 0.5 all ease-in;
+}
+
+.card .card_info .card_image img {
+  margin-top: 30px;
+  border-radius: 50%;
+  width: 60px;
+  object-fit: cover;
+  height: 60px;
+}
+
+.card .profile_circle {
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(68, 68, 68);
+  border-radius: 60%;
+}
+.card .profile_circle .name {
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.card_blog,
+.card_about {
+  font-size: 1.1rem;
+  /* text-decoration: underline; */
+  margin: 5px 0;
+}
+.card_about:hover {
+  background-color: rgb(218, 218, 218);
+}
+.card_blog:hover {
+  background-color: rgb(218, 218, 218);
+}

@@ -3,6 +3,10 @@
   padding-right: 0 !important;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .navbar-light .navbar-nav .open > .nav-link,
 .navbar-light .navbar-nav .active > .nav-link,
 .navbar-light .navbar-nav .nav-link.open,
@@ -53,6 +57,27 @@
 
 .mobile_logo_width {
   display: none;
+}
+
+.about {
+  text-align: center;
+}
+.about {
+  margin: 10% auto;
+  height: 300px;
+}
+
+.form {
+  margin-left: 10px;
+}
+h4 {
+  text-decoration: underline;
+}
+.form input {
+  margin: 10px 0;
+  padding: 5px;
+  max-width: max-content;
+  border: 1px solid grey;
 }
 
 .navbar-nav {
