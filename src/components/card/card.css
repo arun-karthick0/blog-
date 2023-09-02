@@ -6,6 +6,7 @@
 .card .card_info {
   position: absolute;
   width: 250px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   z-index: 1;
   height: 260px;
   border-radius: 5px;
@@ -24,7 +25,6 @@
 }
 
 .card .profile_circle {
-  border: 1px solid black;
   width: 30px;
   height: 30px;
   background-color: rgb(68, 68, 68);
@@ -38,7 +38,6 @@
 .card_blog,
 .card_about {
   font-size: 1.1rem;
-  /* text-decoration: underline; */
   margin: 5px 0;
 }
 .card_about:hover {

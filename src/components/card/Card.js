@@ -47,7 +47,7 @@ function Card({ user }) {
               MyBlogs
             </div>
             <div className="card_about" onClick={() => navigate("/about")}>
-              about
+              About
             </div>
             <button
               onClick={logOut}
