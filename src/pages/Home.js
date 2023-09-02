@@ -40,6 +40,8 @@ const Home = ({ setActive, user, active }) => {
   const searchQuery = queryString.get("searchQuery");
   const location = useLocation();
 
+  console.log(totalBlogs);
+
   const getTrendingBlogs = async () => {
     const blogRef = collection(db, "blogs");
     const trendQuery = query(blogRef, where("trending", "==", "yes"));
@@ -79,12 +81,12 @@ const Home = ({ setActive, user, active }) => {
       unsub();
       getTrendingBlogs();
     };
-  }, [setActive, active]);
+  }, [setActive, active, blogs]);
 
   useEffect(() => {
     getBlogs();
     setHide(false);
-  }, [active]);
+  }, [active, blogs]);
 
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
@@ -153,7 +155,7 @@ const Home = ({ setActive, user, active }) => {
   useEffect(() => {
     if (!isNull(searchQuery)) {
       searchBlogs();
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   if (loading) {
@@ -190,7 +192,7 @@ const Home = ({ setActive, user, active }) => {
       prevValue[name] = 0;
     }
     prevValue[name]++;
-   
+
     return prevValue;
   }, {});
 
