@@ -81,7 +81,7 @@ const Home = ({ setActive, user, active }) => {
       unsub();
       getTrendingBlogs();
     };
-  }, [setActive, active, blogs]);
+  }, [setActive, active]);
 
   useEffect(() => {
     getBlogs();
@@ -97,7 +97,7 @@ const Home = ({ setActive, user, active }) => {
     setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
   };
 
-  console.log("blogs", blogs);
+
 
   const updateState = (docSnapshot) => {
     const isCollectionEmpty = docSnapshot.size === 0;
