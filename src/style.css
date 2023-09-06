@@ -59,26 +59,117 @@
   display: none;
 }
 
-.about {
-  text-align: center;
-}
-.about {
-  margin: 10% auto;
-  height: 300px;
+.about-page {
+  padding: 50px;
+  width: 100%;
+  height: 100vh;
 }
 
-.form {
-  margin-left: 10px;
+.about-page > .about-page-content {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #f7f7f7;
+  margin: 0 80px;
 }
-h4 {
+
+.about-page > .about-page-content > .about-head {
+  padding: 20px;
+  font-size: 1.4rem;
+  width: 100%;
+  text-align: center;
   text-decoration: underline;
 }
-.form input {
-  margin: 10px 0;
-  padding: 5px;
-  max-width: max-content;
-  border: 1px solid grey;
+
+.about-page .about-contact-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 50px;
 }
+.about-page .about-contact-details > .about-details {
+  width: 150px;
+  height: 150px;
+  background-color: #5785ce;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  transition: all 0.5 ease-out;
+}
+.about-page .about-contact-details > .about-details > .about-text {
+  padding: 20px;
+}
+
+.about-page
+  .about-contact-details
+  > .about-details
+  > .about-text
+  > .about-blog-detail {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.about-page .about-contact-details > .about-details > .about-text > .address {
+  margin-left: 10px;
+}
+.about-page .about-contact-details > .about-details:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.about-page .about-details-form {
+  display: flex;
+  padding: 50px;
+  justify-content: space-between;
+}
+.about-page .about-details-form > .about-details-desc {
+  width: 50%;
+  height: 100%;
+  max-height: max-content;
+}
+
+.about-page .about-details-form > .about-details-desc > .about-detail-para {
+  padding: 20px;
+  text-indent: 60px;
+  line-height: 2rem;
+  border: 1px solid #edeff2;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.about-page .about-page-content .about-details-form .about-detail-form {
+  width: 50%;
+  height: 100%;
+  max-height: max-content;
+  padding: 0 100px;
+  border: 1px solid #edeff2;
+}
+
+.about-page .about-page-content .about-details-form .about-detail-form input {
+  width: 100%;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.about-page
+  .about-page-content
+  .about-details-form
+  .about-detail-form
+  textarea {
+  width: 100%;
+  outline: none;
+}
+
+.about-page .about-page-content .about-details-form .about-form-card p {
+  text-align: center;
+  font-size: 1.5rem;
+  text-decoration: underline;
+}
+.about-page .about-page-content .about-details-form .about-detail-form button {
+  width: 100%;
+  background-color: #1c64d8;
+  color: #ffff;
+  border: 1px solid #1c64d8;
+  padding: 5px;
+  margin: 20px 0;
+}
+
 
 .navbar-nav {
   flex-direction: row !important;

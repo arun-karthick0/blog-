@@ -11,9 +11,10 @@ import {
   orderBy,
   where,
 } from "firebase/firestore";
+import FontAwesome from "react-fontawesome";
 import { isEmpty } from "lodash";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CommentBox from "../components/CommentBox";
 import Like from "../components/Like";
@@ -23,9 +24,11 @@ import Tags from "../components/Tags";
 import UserComments from "../components/UserComments";
 import { db } from "../firebase";
 import Spinner from "../components/Spinner";
+import { deleteDoc } from "firebase/firestore";
 
 const Detail = ({ setActive, user }) => {
   const userId = user?.uid;
+  const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [blog, setBlog] = useState(null);
@@ -134,6 +137,20 @@ const Detail = ({ setActive, user }) => {
     setUserComment("");
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure wanted to delete that blog ?")) {
+      try {
+        setLoading(true);
+        await deleteDoc(doc(db, "blogs", id));
+        toast.success("Blog deleted successfully");
+        navigate("/");
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const handleLike = async () => {
     if (userId) {
       if (blog?.likes) {
@@ -174,6 +191,31 @@ const Detail = ({ setActive, user }) => {
                 By <p className="author">{blog?.author}</p> -&nbsp;
                 {blog?.timestamp.toDate().toDateString()}
                 <Like handleLike={handleLike} likes={likes} userId={userId} />
+                {/* edit and delete */}
+                {user && user.uid === userId && (
+                  <div style={{ float: "right", marginRight: "5px" }}>
+                    <FontAwesome
+                      name="trash"
+                      style={{
+                        cursor: "pointer",
+                        marginRight: "15px",
+                      }}
+                      size="2x"
+                      onClick={() => handleDelete(id)}
+                    />
+                    <Link to={`/update/${id}`}>
+                      <FontAwesome
+                        name="edit"
+                        style={{
+                          marginTop: "-3px",
+                          marginRight: "10px",
+                          cursor: "pointer",
+                        }}
+                        size="2x"
+                      />
+                    </Link>
+                  </div>
+                )}
               </span>
               <p className="text-start">{blog?.description}</p>
               <div className="text-start">

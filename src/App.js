@@ -62,7 +62,13 @@ function App() {
         />
         <Route
           path="/detail/:id"
-          element={<Detail setActive={setActive} user={user} />}
+          element={
+            <Detail
+              setActive={setActive}
+              user={user}
+           
+            />
+          }
         />
         <Route
           path="/create"

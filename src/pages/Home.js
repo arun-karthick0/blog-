@@ -22,6 +22,7 @@ import Search from "../components/Search";
 import { isEmpty, isNull } from "lodash";
 import { useLocation } from "react-router-dom";
 import Category from "../components/Category";
+import Detail from "./Detail";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -96,8 +97,6 @@ const Home = ({ setActive, user, active }) => {
     setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
   };
-
-
 
   const updateState = (docSnapshot) => {
     const isCollectionEmpty = docSnapshot.size === 0;
@@ -221,13 +220,12 @@ const Home = ({ setActive, user, active }) => {
               </>
             )}
             {blogs?.map((blog) => (
-              <BlogSection
-                key={blog.id}
-                user={user}
-                handleDelete={handleDelete}
-                {...blog}
-              />
+              <BlogSection key={blog.id} user={user} {...blog} />
             ))}
+
+            <div style={{ display: "none" }}>
+              <Detail />
+            </div>
 
             {!hide && (
               <button className="btn btn-primary" onClick={fetchMore}>

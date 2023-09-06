@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import FontAwesome from "react-fontawesome";
+
 import { Link } from "react-router-dom";
 import { excerpt } from "../utility";
 
@@ -13,7 +13,7 @@ const BlogSection = ({
   author,
   timestamp,
   user,
-  handleDelete,
+ 
 }) => {
   return (
     <div>
@@ -41,7 +41,7 @@ const BlogSection = ({
           <Link to={`/detail/${id}`}>
             <button className="btn btn-read">Read More</button>
           </Link>
-          {user && user.uid === userId && (
+          {/* {user && user.uid === userId && (
             <div style={{ float: "right" }}>
               <FontAwesome
                 name="trash"
@@ -57,7 +57,7 @@ const BlogSection = ({
                 />
               </Link>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

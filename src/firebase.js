@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDEgXRfwNmthX49Y8pf7br4u26KkS9CV8I",
-  authDomain: "blog-website-32b54.firebaseapp.com",
-  projectId: "blog-website-32b54",
-  storageBucket: "blog-website-32b54.appspot.com",
-  messagingSenderId: "242003831532",
-  appId: "1:242003831532:web:312ea78b3679eeb69d93c9",
+  apiKey: "AIzaSyD5TLjBQGqfuqln6c2Uz7dNLOG4CLgRD5c",
+  authDomain: "moviz-app-1bec8.firebaseapp.com",
+  projectId: "moviz-app-1bec8",
+  storageBucket: "moviz-app-1bec8.appspot.com",
+  messagingSenderId: "1084946350869",
+  appId: "1:1084946350869:web:fe72ca2fea5a64b6ecdf1c",
 };
 
 const app = initializeApp(firebaseConfig);
