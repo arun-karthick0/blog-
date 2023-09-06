@@ -203,6 +203,10 @@ const Auth = ({ setActive, setUser }) => {
                       >
                         Sign Up
                       </span>
+                      <div style={{ marginTop: "20px" }}>
+                        <p>Test-Email:arun@gmail.com</p>
+                        <p>Test-password:123456</p>
+                      </div>
                     </p>
                   </div>
                 </>
