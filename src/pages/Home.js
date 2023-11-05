@@ -108,7 +108,7 @@ const Home = ({ setActive, user, active }) => {
       setBlogs((blogs) => [...blogs, ...blogsData]);
       setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
     } else {
-      toast.info("No more blog to display");
+      toast.info("check My blogs for more");
       setHide(true);
     }
   };

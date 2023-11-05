@@ -43,9 +43,9 @@ function Card({ user }) {
             >
               {user?.displayName}
             </div>
-            <div className="card_blog" onClick={() => navigate("/blogs")}>
+            {/* <div className="card_blog" onClick={() => navigate("/blogs")}>
               MyBlogs
-            </div>
+            </div> */}
             <div className="card_about" onClick={() => navigate("/about")}>
               About
             </div>

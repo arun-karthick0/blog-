@@ -21,7 +21,7 @@ const initialState = {
   category: "",
   description: "",
   comments: [],
-  likes: []
+  likes: [],
 };
 
 const categoryOption = [
@@ -217,6 +217,7 @@ const AddEditBlog = ({ user, setActive }) => {
               </div>
               <div className="col-12 py-3">
                 <textarea
+                 
                   className="form-control description-box"
                   placeholder="Description"
                   value={description}
