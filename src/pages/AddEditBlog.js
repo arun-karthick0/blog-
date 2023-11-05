@@ -175,7 +175,7 @@ const AddEditBlog = ({ user, setActive }) => {
                 />
               </div>
               <div className="col-12 py-3">
-                <p className="trending">Is it trending blog ?</p>
+                <p className="trending">Is it a trending blog?</p>
                 <div className="form-check-inline mx-2">
                   <input
                     type="radio"
@@ -207,7 +207,7 @@ const AddEditBlog = ({ user, setActive }) => {
                   onChange={onCategoryChange}
                   className="catg-dropdown"
                 >
-                  <option>Please select category</option>
+                  <option>Please select a category</option>
                   {categoryOption.map((option, index) => (
                     <option value={option || ""} key={index}>
                       {option}
@@ -217,7 +217,6 @@ const AddEditBlog = ({ user, setActive }) => {
               </div>
               <div className="col-12 py-3">
                 <textarea
-                 
                   className="form-control description-box"
                   placeholder="Description"
                   value={description}

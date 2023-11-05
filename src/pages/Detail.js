@@ -217,7 +217,9 @@ const Detail = ({ setActive, user }) => {
                   </div>
                 )}
               </span>
-              <p className="text-start">{blog?.description}</p>
+              <p className="text-start" style={{ whiteSpace: "pre-line" }}>
+                {blog?.description}
+              </p>
               <div className="text-start">
                 <Tags tags={blog?.tags} />
               </div>
